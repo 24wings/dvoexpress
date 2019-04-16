@@ -42,4 +42,4 @@ locale(navigator.language);
   providers: [AuthService, ScreenService, AppInfoService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

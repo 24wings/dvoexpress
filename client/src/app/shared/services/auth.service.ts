@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import notify from "devextreme/ui/notify";
 @Injectable()
 export class AuthService {
-  loggedIn = false;
+  loggedIn = true;
 
   constructor(private router: Router, public httpClient: HttpClient) { }
 
@@ -13,12 +13,12 @@ export class AuthService {
     // var rtn = await this.httpClient
     //   .post("/api/Auth/Sign/login", { username: login, password })
     //   .toPromise();
-    if (login == "admin" && password == "8888") {
-      this.loggedIn = true;
-      this.router.navigate(["/"]);
-    } else {
-      notify("用户名或密码错误", "erro");
-    }
+    // if (login == "admin" && password == "8888") {
+    this.loggedIn = true;
+    // this.router.navigate(["/"]);
+    // } else {
+    //   notify("用户名或密码错误", "erro");
+    // }
 
   }
 

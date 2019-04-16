@@ -25,6 +25,7 @@ import { PageComponent } from "./pages/page/page.component";
       { path: "personal", component: PersonalPageComponent },
       { path: "design", component: DesignPageComponent }
     ])
-  ]
+  ],
+  providers: []
 })
-export class HomeModule {}
+export class HomeModule { }

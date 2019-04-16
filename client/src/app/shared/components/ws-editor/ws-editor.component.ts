@@ -112,13 +112,21 @@ export class WsEditorComponent {
     debugger;
     this.modeChange.emit("Update");
   }
-  update() {
+  async  update() {
     var key = this.dataSource.key();
 
-    this.dataSource.store().update(this.formData[key], this.formData);
-    this.dataSource.store().load();
+    var isCustomStore = this.dataSource instanceof CustomStore;
+    debugger;
+    if (isCustomStore) {
+      ((this.dataSource as any) as CustomStore).update(this.formData[key], this.formData);
+      ((this.dataSource as any) as CustomStore).load();
+    } else {
+      await this.dataSource.store().update(this.formData[key], this.formData);
+      this.dataSource.store().load();
+    }
+    notify("记录更新成功", "success");
+
     this.onCreateSuccess.emit();
-    notify("数据提交成功", "success");
   }
 
   back() {
@@ -126,5 +134,5 @@ export class WsEditorComponent {
     this.onCreateSuccess.emit(true);
   }
 
-  validation() {}
+  validation() { }
 }

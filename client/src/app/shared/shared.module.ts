@@ -40,16 +40,16 @@ import { DynamicCellComponent } from "./components/cells/dynamic-cell.component"
 import { DynamicColDirective } from "./components/cols/dynamic-col.directive";
 import { DynamicCellDirective } from "./components/cells/dynamic-cell.directive";
 import { cellComponentRegister } from "./components/cells/cell.component.register";
-import { DynamicComponentModule } from "ng-dynamic";
 import { WsSearchBarComponent } from "./components/ws-search-bar/ws-search-bar.component";
 var cellComponents = cellComponentRegister.map(r => r.component);
 import { DxValidatorModule } from "devextreme-angular/ui/validator";
 import { DxValidationGroupModule } from "devextreme-angular/ui/validation-group";
+import { MyHttpService } from './services/my-http.service';
+import { RcxhApiService } from './services/rcxh-api.service';
 
 @NgModule({
   imports: [
     CommonModule,
-    DynamicComponentModule.forRoot({}),
     DxTagBoxModule,
     DxTextAreaModule,
     DxDataGridModule,
@@ -114,7 +114,7 @@ import { DxValidationGroupModule } from "devextreme-angular/ui/validation-group"
     ...cellComponents,
     WsSearchBarComponent,
     DxValidationGroupModule,
-    DxValidatorModule
+    DxValidatorModule,
   ],
   declarations: [
     WsViewComponent,
@@ -126,16 +126,16 @@ import { DxValidationGroupModule } from "devextreme-angular/ui/validation-group"
     DynamicColDirective,
     DynamicCellDirective,
     ...cellComponents,
-    WsSearchBarComponent
+    WsSearchBarComponent,
   ],
-  providers: [HostService, SqlMapService, DbService, DxTemplateHost],
+  providers: [HostService, SqlMapService, DbService, DxTemplateHost, RcxhApiService],
   entryComponents: [...cellComponents]
 })
 export class SharedModule {
   public static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [HostService, DbService, SqlMapService]
+      providers: [HostService, DbService, SqlMapService, MyHttpService]
     };
   }
 }

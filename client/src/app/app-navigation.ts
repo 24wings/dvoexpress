@@ -1,13 +1,13 @@
 export const navigation = [
   {
-    text: "机构与权限",
+    text: "系统设置",
     //path: '/admin/rbac',
-    icon: "home",
+    icon: "preferences",
     items: [
-      { text: "公司管理", path: "/admin/rbac/company" },
-      { text: "菜单管理", path: "/admin/rbac/menu" },
-      { text: "角色管理", path: "/admin/rbac/role" },
-      { text: "用户管理", path: "/admin/rbac/user" }
+      { text: "组织管理", path: "/rcxh/admin/page/Wings.Projects.Rcxh.DVO.Rbac.OrgManage", icon: "group" },
+      { text: "用户管理", path: "/rcxh/admin/page/Wings.Projects.Rcxh.DVO.Rbac.UserManage", icon: 'user' },
+      { text: "菜单管理", path: "/rcxh/admin/page/Wings.Projects.Rcxh.DVO.Rbac.MenuManage", icon: "menu" },
+      { text: "角色管理", path: "/rcxh/admin/page/Wings.Projects.Rcxh.DVO.Rbac.RoleManage", icon: 'card' },
     ]
   },
   {

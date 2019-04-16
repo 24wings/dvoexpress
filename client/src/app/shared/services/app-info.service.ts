@@ -5,6 +5,6 @@ export class AppInfoService {
   constructor() { }
 
   public get title() {
-    return '创联众筹';
+    return '融创小河';
   }
 }

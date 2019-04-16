@@ -1,29 +1,25 @@
 import { Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
 import { environment } from "../../../../../environments/environment";
+import { ServerView } from 'src/app/struct/ServerView';
 
-class ServerView {
-  dataSource: {
-    type: string;
-    loadUrl: string;
-    insertUrl: string;
-    updateUrl: string;
-    deleteUrl: string;
-  };
-}
+
 
 @Component({ selector: "page", templateUrl: "./page.component.html" })
 export class PageComponent {
   selectedDVO;
-  constructor(private route: ActivatedRoute, private client: HttpClient) {}
+  constructor(private route: ActivatedRoute, private client: HttpClient, private router: Router
+  ) {
+
+  }
   dvos: any[] = [];
   async ngOnInit() {
     var dvo = this.route.snapshot.queryParams.dvo;
-    this.dvos = (await this.client
-      .get(environment.ip + "/api/Hk/DVO/listDVO")
-      .toPromise()) as any;
+    // this.dvos = (await this.client
+    //   .get(environment.ip + "/api/Hk/DVO/listDVO")
+    //   .toPromise()) as any;
     let res = this.client
       .get(environment.ip + "/api/Hk/Auth/login")
       .toPromise();
@@ -33,14 +29,13 @@ export class PageComponent {
     if (dvo.dataSource.type == "odata") {
       console.log(environment.ip + dvo.dataSource.deleteUrl);
       dvo.dataSource = AspNetData.createStore({
-        key: "orgId",
+        key: dvo.dataSource.key,
         loadUrl: environment.ip + dvo.dataSource.loadUrl,
         insertUrl: environment.ip + dvo.dataSource.insertUrl,
         updateUrl: environment.ip + dvo.dataSource.updateUrl,
         deleteUrl: environment.ip + dvo.dataSource.deleteUrl
       }) as any;
     }
-
     this.selectedDVO = dvo;
   }
 }

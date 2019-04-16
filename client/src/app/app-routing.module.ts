@@ -12,23 +12,24 @@ import {
 } from "devextreme-angular";
 import { SharedModule } from "./shared/shared.module";
 import { SingleCardModule } from "./layouts";
+import { SideNavInnerToolbarComponent } from 'src/app/layouts';
 
 const routes: Routes = [
-  { path: "hk", loadChildren: "./libs/hk/hk.module#HkModule" },
-  { path: "home", loadChildren: "./libs/home/home.module#HomeModule" },
+  { path: "rcxh", loadChildren: "./libs/rcxh/rcxh.module#RcxhModule" },
+  // { path: "home", loadChildren: "./libs/home/home.module#HomeModule" },
 
-  { path: "admin/blog", loadChildren: "./libs/blog/blog.module#BlogModule" },
-  {
-    path: "admin/sql-inject",
-    loadChildren: "./libs/sql-inject/sql-inject.module#SqlInjectModule"
-  },
-  { path: "admin/rbac", loadChildren: "./libs/rbac/rbac.module#RbacModule" },
-  { path: "admin/xss", loadChildren: "./libs/xss/xss.module#XSSModule" },
-  { path: "admin/task", loadChildren: "./libs/task/task.module#TaskModule" },
-  {
-    path: "admin/worker",
-    loadChildren: "./libs/worker/worker.module#WorkerModule"
-  },
+  // { path: "admin/blog", loadChildren: "./libs/blog/blog.module#BlogModule" },
+  // {
+  //   path: "admin/sql-inject",
+  //   loadChildren: "./libs/sql-inject/sql-inject.module#SqlInjectModule"
+  // },
+  // { path: "admin/rbac", loadChildren: "./libs/rbac/rbac.module#RbacModule" },
+  // { path: "admin/xss", loadChildren: "./libs/xss/xss.module#XSSModule" },
+  // { path: "admin/task", loadChildren: "./libs/task/task.module#TaskModule" },
+  // {
+  //   path: "admin/worker",
+  //   loadChildren: "./libs/worker/worker.module#WorkerModule"
+  // },
   {
     path: "display-data",
     component: DisplayDataComponent,
@@ -39,12 +40,12 @@ const routes: Routes = [
     component: ProfileComponent,
     canActivate: [AuthGuardService]
   },
-  { path: "", redirectTo: "hk/login", pathMatch: "full" },
-  // {
-  //   path: "home",
-  //   component: HomeComponent,
-  //   canActivate: [AuthGuardService]
-  // },
+  { path: "", redirectTo: "home", pathMatch: "full" },
+  {
+    path: "home",
+    component: HomeComponent,
+    canActivate: [AuthGuardService]
+  },
   {
     path: "login-form",
     component: LoginFormComponent,
@@ -70,4 +71,4 @@ const routes: Routes = [
   exports: [RouterModule],
   declarations: [HomeComponent, ProfileComponent, DisplayDataComponent]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

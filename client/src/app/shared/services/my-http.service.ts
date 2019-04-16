@@ -20,9 +20,7 @@ export class MyHttpService {
   }
 
   Get(url: string, options?: RequestOptions, authHeader: boolean = true) {
-    if (this.isMock) {
-      return this.mockGet(url);
-    }
+
 
     if (!options)
       options = {
@@ -42,18 +40,18 @@ export class MyHttpService {
         let result = rtn as any;
         if (result.statusCode > 400 && result.statusCode < 500) {
           return (result = {
-            ok: false,
+            success: false,
             msg: "资源访问错误:" + result.message,
             status: result.statusCode
           });
         } else if (result.statusCode >= 500) {
           return (result = {
-            ok: false,
+            success: false,
             msg: result.message ? result.message : "服务器内部错误:",
             status: result.statusCode
           });
         }
-        if (!result.ok) {
+        if (!result.success) {
           return this.createMessage("error", result.data) && false;
         }
         return result.data;
@@ -63,9 +61,7 @@ export class MyHttpService {
       });
   }
   Post(url: string, body: any, options?: RequestOptions): Promise<any> {
-    if (this.isMock) {
-      return this.mockGet(url);
-    }
+
     if (!options)
       options = {
         headers: new HttpHeaders({
@@ -85,22 +81,22 @@ export class MyHttpService {
         let result = rtn as any;
         if (result.statusCode > 400 && result.statusCode < 500) {
           result = {
-            ok: false,
+            success: false,
             data: "资源访问错误:" + result.message,
             status: result.statusCode
           };
         } else if (result.statusCode >= 500) {
           result = {
-            ok: false,
+            success: false,
             data: result.message ? result.message : "服务器内部错误:",
             status: result.statusCode
           };
         }
-        if (!result.ok) {
+        if (!result.success) {
           this.createMessage("error", result.message);
           return false;
         } else {
-          return result.data;
+          return result.resData;
         }
       })
       .catch(e => this.handleError(e));
@@ -115,7 +111,7 @@ export class MyHttpService {
       .toPromise()
       .then(rtn => {
         let result = rtn as any;
-        return result.ok
+        return result.success
           ? result.data
           : this.createMessage("error", result.data);
       });
@@ -130,7 +126,7 @@ export class MyHttpService {
       .toPromise()
       .then(rtn => {
         let result = rtn as any;
-        return result.ok
+        return result.success
           ? result.data
           : this.createMessage("error", result.data);
       });
@@ -163,17 +159,11 @@ export class MyHttpService {
       .toPromise()
       .then(rtn => rtn);
   }
-  mockGet(url: string) {
-    return this.http
-      .get("/assets/mock" + url + ".json")
-      .toPromise()
-      .then(rtn => rtn)
-      .then(rtn => rtn["resdata"]);
-  }
+
 
   createMessage(type: "error" | "success" | "warning", text): boolean {
     notify(text, type);
     return true;
   }
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) { }
 }
