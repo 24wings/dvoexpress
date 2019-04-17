@@ -23,7 +23,8 @@
     <dxo-header-filter [visible]="true"></dxo-header-filter>
     <dxo-remote-operations [filtering]="true" [sorting]="true" [grouping]="true"></dxo-remote-operations>
     <dxi-column *ngFor="let col of columns" [caption]="col.caption" [calculateDisplayValue]="col.calculateDisplayValue"
-      [dataField]="col.dataField" [dataType]="col.dataType"></dxi-column>
+      [dataField]="col.dataField" [dataType]="col.dataType">
+    </dxi-column>
     <dxi-column type="buttons" [width]="110">
       <dxi-button icon="edit" [onClick]="edit"></dxi-button>
 

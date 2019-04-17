@@ -7,4 +7,6 @@ export class ServerView {
     updateUrl: string;
     deleteUrl: string;
   };
+  items: { editorOptions: any }[]
+  cols: { calculateDisplayValue: Function }[]
 }

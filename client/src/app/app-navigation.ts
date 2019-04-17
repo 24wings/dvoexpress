@@ -9,6 +9,7 @@ export const navigation = [
       { text: "菜单管理", path: "/rcxh/admin/page/Wings.Projects.Rcxh.DVO.Rbac.MenuManage", icon: "menu" },
       { text: "角色管理", path: "/rcxh/admin/page/Wings.Projects.Rcxh.DVO.Rbac.RoleManage", icon: 'card' },
     ]
+
   },
   {
     text: "代办",

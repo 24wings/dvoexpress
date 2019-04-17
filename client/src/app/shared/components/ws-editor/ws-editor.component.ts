@@ -118,8 +118,8 @@ export class WsEditorComponent {
     var isCustomStore = this.dataSource instanceof CustomStore;
     debugger;
     if (isCustomStore) {
-      ((this.dataSource as any) as CustomStore).update(this.formData[key], this.formData);
-      ((this.dataSource as any) as CustomStore).load();
+      await ((this.dataSource as any) as CustomStore).update(this.formData[key], this.formData);
+      await ((this.dataSource as any) as CustomStore).load();
     } else {
       await this.dataSource.store().update(this.formData[key], this.formData);
       this.dataSource.store().load();

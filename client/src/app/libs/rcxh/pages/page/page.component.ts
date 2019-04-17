@@ -51,10 +51,48 @@ export class PageComponent {
                     deleteUrl: environment.ip + dvo.dataSource.deleteUrl
                 }) as any;
             }
-            this.selectedDVO = null;
+            if (dvo)
+                this.selectedDVO = null;
             setTimeout(() => {
                 this.selectedDVO = dvo;
             }, 200);
+
+            dvo.cols.forEach(col => {
+                if (col.calculateDisplayValue != null) {
+                    col.calculateDisplayValue = function (items) {
+                        debugger;
+                        // return eval(col.calculateDisplayValue as any);
+                        if (items && Array.isArray(items)) {
+                            // return "items"
+                            return items.map(item => item.text).join(",")
+                        } else {
+                            if (items.menus)
+                                return items.menus.map(item => item.text).join(",")
+                        }
+                    }
+
+                    // var items = col.calculateDisplayValue([{ text: "1234" }])
+                    debugger;
+                }
+            })
+
+            dvo.items.forEach(item => {
+                Object.keys(item.editorOptions).forEach(key => {
+                    if (item.editorOptions[key] != null) {
+                        debugger;
+                        ///认为是dataSource
+                        if (item.editorOptions[key].dataSource) {
+                            item.editorOptions[key].dataSource = AspNetData.createStore({
+                                key: item.editorOptions[key].dataSource.key,
+                                loadUrl: environment.ip + (item.editorOptions[key].dataSource.url),
+                            }) as any;
+                        }
+                    }
+                });
+
+
+            });
+            debugger;
 
         }
     }

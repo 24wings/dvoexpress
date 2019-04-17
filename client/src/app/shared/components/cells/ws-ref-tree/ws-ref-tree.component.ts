@@ -25,38 +25,47 @@ export class WsRefTreeComponent {
   @Input() item: any;
   @ViewChild(DxTreeViewComponent) treeView: DxTreeViewComponent;
   @Output() formDataChange = new EventEmitter();
-  treeView_itemSelectionChanged(e) {
-    // alert(1);
-    const nodes = e.component.getNodes();
-    debugger;
-    // this.formData[item.dataField] = this.getSelectedRows()
-    console.log(e, this.formData);
-    // this.treeView.
-    // this.treeBoxValue = this.getSelectedItemsKeys(nodes).join(",");
-    this._formData_[this.item.dataField] = this.getSelectedItems(nodes).map(
-      n => n.itemData
-    );
+
+  treeDataSource: any;
+  treeBoxValue: string[] = [];
+  gridDataSource: any;
+  _gridBoxValue: number[] = [];
+
+  constructor() {
+
+  }
+
+  set value(val) {
+    this.formData[this.item.dataField] = val;
     this.formDataChange.emit(this.formData);
-    debugger;
-
-    return false;
   }
 
-  ngOnInit() {
-    this.formData;
-    debugger;
+
+  syncTreeViewSelection(e) {
+    var component = (e && e.component) || (this.treeView && this.treeView.instance);
+
+    // if (!component) return;
+
+    if (!this.treeBoxValue || this.treeBoxValue.length <= 0) {
+      component.unselectAll();
+    }
+
+    if (this.treeBoxValue) {
+      debugger;
+      this.treeBoxValue.forEach((function (value) {
+        component.selectItem(value);
+      }).bind(this));
+
+    }
+    this.syncPlaceholder()
   }
-  syncTreeViewSelection($event) {
-    if (!this.treeView) return;
-    debugger;
-    this.treeView.instance.selectItem($event.itemData);
-  }
+  placeholder
+
   getSelectedItemsKeys(items) {
-    console.log(items);
     var result = [],
       that = this;
 
-    items.forEach(function(item) {
+    items.forEach(function (item) {
       if (item.selected) {
         result.push(item.key);
       }
@@ -66,19 +75,47 @@ export class WsRefTreeComponent {
     });
     return result;
   }
-  getSelectedItems(items) {
-    console.log(items);
-    var result = [],
-      that = this;
 
-    items.forEach(function(item) {
-      if (item.selected) {
-        result.push(item);
+
+
+  treeView_itemSelectionChanged(e) {
+    const nodes = e.component.getNodes();
+    // var displayExpr = this.item.editorOptions.dxDropbox.displayExpr;
+    this.treeBoxValue = this.treeView.items.filter(item => item.selected) as any;
+    //  this.getSelectedItemsKeys(nodes);
+    this.syncPlaceholder()
+  }
+
+  get gridBoxValue(): number[] {
+    return this._gridBoxValue;
+  }
+
+  set gridBoxValue(value: number[]) {
+    this._gridBoxValue = value || [];
+  }
+  displayExpr = function (item) {
+    console.log(this);
+    return this._valueGetter(this)
+  }
+
+
+  syncPlaceholder() {
+    let placeholder = this.item.editorOptions.dxTreeView.placeholder;
+    if (this.treeBoxValue) {
+      if (Array.isArray(this.treeBoxValue) && this.treeBoxValue.length > 0) {
+        var items = this.treeView.items;
+        // = this.getSelectedItems(this.treeView.instance.getNodes());
+        debugger;
+        this.placeholder = items.filter(item => item.selected).map(item => item[this.item.editorOptions.dxTreeView.displayExpr]).join(",");
+        this.value = items.filter(item => item.selected)
+      } else {
+        this.placeholder = placeholder;
+        this.value = null;
       }
-      if (item.items.length) {
-        result = result.concat(that.getSelectedItems(item.items));
-      }
-    });
-    return result;
+    } else {
+      this.placeholder = placeholder;
+      this.value = null;
+    }
+
   }
 }
